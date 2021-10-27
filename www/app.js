@@ -4,7 +4,12 @@ const empty = document.querySelector('#empty');
 const usernameElement = document.querySelector('#username');
 
 async function getUser() {
-    // TODO
+   
+    const response = await fetch('http://localhost:4280/.auth/me');
+    const user = await response.json();
+
+    usernameElement.textContent = "Hi " + user.clientPrincipal.userDetails.toString() + " ! ";
+
 }
 
 async function updateTask() {
@@ -33,7 +38,7 @@ taskformElement.addEventListener('submit', async (e) => {
 });
 
 async function getTasks() {
-    const response = await fetch('/api/tasks');
+    const response = await fetch('http://localhost:4280/.auth/me');
     const tasks = await response.json();
     console.log(tasks);
 
@@ -43,6 +48,8 @@ async function getTasks() {
             taskListElement.appendChild(generateTask(task))
         }
     }
+
+    return tasks;
 }
 
 function generateTask(task) {
@@ -63,4 +70,5 @@ function generateTask(task) {
 }
 
 getUser();
-getTasks();
+
+
